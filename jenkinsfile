@@ -27,5 +27,18 @@ pipeline {
            sh 'docker build -t abhishekalur/banking-project-demo:1.0 .'
                 } 
             }
+  stage('Docker-Login') {
+      steps {
+          withCredentials([usernamePassword(credentialsId: 'c4ee4851-160c-4084-9ade-031d6446f941', passwordVariable: 'dockerpassword', usernameVariable: 'dockerlogin')]) {
+          sh 'docker login -u $(dockerlogin) -p $(dockerpassword)'
+                              }
+                  }
+            }
+ stage ('push-image') {
+     steps {
+         sh 'docker push abhishekalur/banking-project-demo:1.0'
+               }
+          }
+}
 }
 }
